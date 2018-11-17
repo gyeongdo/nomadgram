@@ -46,14 +46,14 @@ class FeedUserSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
 
-    creator = FeedUserSerializer(read_only=True)
+    creater = FeedUserSerializer(read_only=True)
 
     class Meta:
         model = models.Comment
         fields = (
             'id',
             'message',
-            'creator'
+            'creater'
         )
 
 
@@ -67,8 +67,8 @@ class LikeSerializer(serializers.ModelSerializer):
 
 class ImageSerializer(serializers.ModelSerializer):
     
-    # comments = CommentSerializer(many=True)
-    # creator = FeedUserSerializer()
+    comments = CommentSerializer(many=True)
+    # creater = FeedUserSerializer()
     # tags = TagListSerializerField()
     # is_liked = serializers.SerializerMethodField()
 
@@ -81,11 +81,11 @@ class ImageSerializer(serializers.ModelSerializer):
             'caption',
             'comments',
             'like_count',
-            'creator',
+            # 'creater',
             'tags',
-            'natural_time',
-            'is_liked',
-            'is_vertical'
+            # 'natural_time',
+            # 'is_liked',
+            # 'is_vertical'
         )
 
     def get_is_liked(self, obj):
@@ -93,7 +93,7 @@ class ImageSerializer(serializers.ModelSerializer):
             request = self.context['request']
             try:
                 models.Like.objects.get(
-                    creator__id=request.user.id, image__id=obj.id)
+                    creater__id=request.user.id, image__id=obj.id)
                 return True
             except models.Like.DoesNotExist:
                 return False
@@ -105,5 +105,5 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Like
         fields = (
-            'creator',
+            'creater',
         )
