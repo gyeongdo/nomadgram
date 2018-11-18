@@ -41,10 +41,10 @@ class Images(APIView):
 
     def post(self, request, format=None):
 
+        print('post 요청')
         user = request.user
 
         serializer = serializers.InputImageSerializer(data=request.data)
-
 
         if serializer.is_valid():
 
