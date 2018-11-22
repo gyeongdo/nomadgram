@@ -1,0 +1,1 @@
+export const translations = { es: { "Login in": "Iniciar Sesi6n", "About Us": "sobre nosotros" } };
