@@ -1,0 +1,20 @@
+#: src/components/Auth/presenter.js
+msgid "Log in"
+msgstr "로그인"
+
+#: src/components/Auth/presenter.js
+msgid "Don't have an account?"
+msgstr "회원가입 하실래예?"
+
+#: src/components/Auth/presenter.js
+msgid "Sign up"
+msgstr "회원가입"
+
+#: src/components/Auth/presenter.js
+msgid "Get the app"
+msgstr "앱으로"
+
+#: src/components/Footer/index.js
+msgid "About Us"
+msgstr "우리에 대해"
+
