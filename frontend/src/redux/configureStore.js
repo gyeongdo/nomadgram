@@ -6,6 +6,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import Reactotron from 'ReactotronConfig';
 import { i18nState } from 'redux-i18n';
 import user from 'redux/modules/user';
+import photos from 'redux/modules/photos';
 
 const env = process.env.NODE_ENV;
 
@@ -20,6 +21,7 @@ if(env === 'development'){
 
 const reducer = combineReducers({
     user,
+    photos,
     router: connectRouter(history),
     i18nState
 });

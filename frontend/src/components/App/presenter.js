@@ -1,30 +1,33 @@
 import React from 'react';
+import PropTypes from "prop-types";
 import { Route, Switch } from 'react-router-dom';
-import styles from 'components/App/styles.scss';
-import Footer from 'components/Footer';
-import classNames from "classnames/bind";
-import PropTypes from 'prop-types';
+import "./styles.scss";
 import Auth from 'components/Auth';
-
-const cx = classNames.bind(styles);
+import Footer from 'components/Footer';
+import Navigation from "components/Navigation";
+import Feed from "components/Feed";
+// import styles from "components/App/styles.scss";
+// import classNames from "classnames/bind";
+// const cx = classNames.bind(styles);
 
 // stateless 컴포넌트라서 component 필요없음 임포트할때
 
 const App = props => [
-    props.isLoggedIn ? <PrivateRoute key={2}/> : <PublicRoute key={2}/>,
-    <Footer key={3} />
-]
+  props.isLoggedIn ? <Navigation key={1} /> : null,
+  props.isLoggedIn ? <PrivateRoute key={2} /> : <PublicRoute key={2} />,
+  <Footer key={3} />
+];
 
-App.proptype = {
-  isLoggedIn: PropTypes.bool.isRequired
+App.propTypes = {
+    isLoggedIn: PropTypes.bool.isRequired
 };
 
 const PrivateRoute = props => (
     <Switch>
-        <Route exact path="/" render={() => "feed"} />,
+        <Route exact path="/" component={Feed} />
         <Route exact path="/explore" render={() => "explore"} />
-    </Switch>    
-)
+    </Switch>
+);
 
 const PublicRoute = props => (
     <Switch>

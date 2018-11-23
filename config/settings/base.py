@@ -278,6 +278,10 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+JWT_AUTH = {
+    'JWT_VERIFY_EXPIRATION' : False
+}
+
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'SCOPE': [
@@ -308,3 +312,4 @@ SOCIALACCOUNT_PROVIDERS = {
         'VERSION': 'v2.4'
     }
 }
+

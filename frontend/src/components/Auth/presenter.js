@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.scss";
 import classNames from "classnames/bind";
-import { LoginForm, SignupForm } from "components/AuthForm";
+import LoginForm from "components/LoginForm";
+import SignupForm from "components/SignupForm";
 
 const cx = classNames.bind(styles);
 
