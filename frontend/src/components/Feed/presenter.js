@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import classNames from 'classnames/bind';
 import Loading from 'components/Loading';
+import FeedPhoto from 'components/FeedPhoto';
 
 const cx = classNames.bind(styles);
 
@@ -22,9 +23,13 @@ const LoadingFeed = props => (
 );
 
 const RenderFeed = props => (
-    <div className={cx('feed')}>{props.feed.map(post => post.caption)}
-    </div>
-)
+  <div className={cx("feed")}>
+    {props.feed.map(photo => (
+      <FeedPhoto {...photo} key={photo.id} />
+    ))
+    }
+  </div>
+);
 
 Feed.propTypes = {
     loading: PropTypes.bool.isRequired

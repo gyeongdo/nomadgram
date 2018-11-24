@@ -1,7 +1,6 @@
 from django.contrib import admin
 from . import models 
 
-# Register your models here.
 
 @admin.register(models.Image)
 class ImageAdmin(admin.ModelAdmin):
@@ -33,7 +32,7 @@ class ImageAdmin(admin.ModelAdmin):
 @admin.register(models.Like)
 class LikeAdmin(admin.ModelAdmin):
     list_display = (
-        # 'creater',
+        'creater',
         'image',
         'created_at',
         'updated_at',
@@ -44,7 +43,7 @@ class LikeAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     list_display = (
         'message',
-        # 'creater',
+        'creater',
         'image',
         'created_at',
         'updated_at',

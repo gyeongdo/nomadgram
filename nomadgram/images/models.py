@@ -1,6 +1,7 @@
 from django.db import models
-from nomadgram.users import models as user_models
 from taggit.managers import TaggableManager
+from nomadgram.users import models as user_models
+from django.contrib.humanize.templatetags.humanize import naturaltime
 
 # Create your models here.
 class TimeStampModel(models.Model):
@@ -9,10 +10,6 @@ class TimeStampModel(models.Model):
 
     class Meta:
         abstract = True
-
-
-
-
 
 class Image(TimeStampModel):
     
@@ -58,7 +55,7 @@ class Image(TimeStampModel):
 class Comment(TimeStampModel):
 
     message = models.TextField()
-    # creater = models.ForeignKey(user_models.User, on_delete=models.CASCADE, null=True)
+    creater = models.ForeignKey(user_models.User, on_delete=models.CASCADE, null=True)
     image = models.ForeignKey(Image, on_delete=models.CASCADE, null=True, related_name='comments')
 
     def __str__(self):
@@ -69,7 +66,7 @@ class Like(TimeStampModel):
 
     """ Like Model """
 
-    # creater = models.ForeignKey(user_models.User, on_delete=models.CASCADE, null=True)
+    creater = models.ForeignKey(user_models.User, on_delete=models.CASCADE, null=True)
     image = models.ForeignKey(Image, on_delete=models.CASCADE, null=True, related_name='likes')
 
     def __str__(self):

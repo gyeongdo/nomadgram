@@ -1,0 +1,19 @@
+@import '~reset-css/reset.css'; 
+@import '../../config/_variables';
+
+.actions {
+  margin-bottom: 10px;
+  .icons {
+    margin-bottom: 5px;
+    .icon {
+      cursor: pointer;
+      &:first-child {
+        margin-right: 10px;
+      }
+    }
+  }
+  .likes {
+    font-weight: 600;
+    cursor: pointer;
+  }
+}

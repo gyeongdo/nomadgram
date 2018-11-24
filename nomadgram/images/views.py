@@ -31,11 +31,9 @@ class Images(APIView):
 
             image_list.append(image)
 
-        sorted_list = sorted(
-            image_list, key=lambda image: image.created_at, reverse=True)
+        sorted_list = sorted(image_list, key=lambda image: image.created_at, reverse=True)
 
-        serializer = serializers.ImageSerializer(
-            sorted_list, many=True, context={'request': request})
+        serializer = serializers.ImageSerializer(sorted_list, many=True, context={'request': request})
 
         return Response(serializer.data)
 
@@ -60,7 +58,7 @@ class Images(APIView):
 class LikeImage(APIView):
 
     def get(self, request, image_id, format=None):
-
+        print('좋아요')
         # 좋아요 누른 사람 싹 긁어오고
         likes = models.Like.objects.filter(image__id=image_id)
 
