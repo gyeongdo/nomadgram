@@ -6,11 +6,8 @@ import Auth from 'components/Auth';
 import Footer from 'components/Footer';
 import Navigation from "components/Navigation";
 import Feed from "components/Feed";
-// import styles from "components/App/styles.scss";
-// import classNames from "classnames/bind";
-// const cx = classNames.bind(styles);
-
-// stateless 컴포넌트라서 component 필요없음 임포트할때
+import Explore from "components/Explore";
+import Search from "components/Search";
 
 const App = props => [
   props.isLoggedIn ? <Navigation key={1} /> : null,
@@ -23,10 +20,11 @@ App.propTypes = {
 };
 
 const PrivateRoute = props => (
-    <Switch>
-        <Route exact path="/" component={Feed} />
-        <Route exact path="/explore" render={() => "explore"} />
-    </Switch>
+  <Switch>
+    <Route exact path="/" component={Feed} />
+    <Route path="/explore" component={Explore} />
+    <Route path="/search/:searchTerm" component={Search} />
+  </Switch>
 );
 
 const PublicRoute = props => (

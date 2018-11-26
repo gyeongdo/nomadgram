@@ -31,15 +31,15 @@ const Navigation = (props, context) => (
         </form>
       </div>
       <div className={cx('column')}>
-        <div className={styles.navIcon}>
+        <div className={cx("navIcon")}>
           <Link to="/explore">
             <Ionicon icon="ios-compass-outline" fontSize="28px" color="black" />
           </Link>
         </div>
-        <div className={styles.navIcon}>
+        <div className={cx("navIcon")}>
           <Ionicon icon="ios-heart-outline" fontSize="28px" color="black" />
         </div>
-        <div className={styles.navIcon}>
+        <div className={cx("navIcon")}>
           <Link to="/profile">
             <Ionicon icon="ios-person-outline" fontSize="32px" color="black" />
           </Link>

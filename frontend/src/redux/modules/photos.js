@@ -1,34 +1,35 @@
-// import
+// imports
 
-import { actionCreators as userActions } from 'redux/modules/user';
-// reducer action
+import { actionCreators as userActions } from "redux/modules/user";
+
+// actions
 
 const SET_FEED = "SET_FEED";
+const LIKE_PHOTO = "LIKE_PHOTO";
+const UNLIKE_PHOTO = "UNLIKE_PHOTO";
 const ADD_COMMENT = "ADD_COMMENT";
-const LIKE_PHOTO = "LIKE_PHOTOS";
-const UNLIKE_PHOTO = "UNLIKE_PHOTOS";
 
-// reducer action Creator
+// action creators
 
-function setFeed(feed){
+function setFeed(feed) {
     return {
         type: SET_FEED,
         feed
-    }    
+    };
 }
 
-function doLikePhoto(photoId){
+function doLikePhoto(photoId) {
     return {
         type: LIKE_PHOTO,
         photoId
-    }
+    };
 }
 
-function doUnLikePhoto(photoId){
+function doUnlikePhoto(photoId) {
     return {
         type: UNLIKE_PHOTO,
         photoId
-    }
+    };
 }
 
 function addComment(photoId, comment) {
@@ -39,64 +40,66 @@ function addComment(photoId, comment) {
     };
 }
 
-
-
-// api actions
+// API Actions
 
 function getFeed() {
     return (dispatch, getState) => {
-      const { user: { token } } = getState();
-      fetch("/images/", { headers: { Authorization: `JWT ${token}` } })
-        .then(response => {
-            if (response.status === 401){
-                dispatch(userActions.logout());
+        const { user: { token } } = getState();
+        fetch("/images/", {
+            headers: {
+                Authorization: `JWT ${token}`
             }
-            return response.json();
-        }) // json은 받아온 이미지 배열을 의미한다 0:
-        .then(json => dispatch(setFeed(json)))
-        .catch(err => console.log(err));
+        })
+            .then(response => {
+                if (response.status === 401) {
+                    dispatch(userActions.logout());
+                }
+                return response.json();
+            })
+            .then(json => {
+                dispatch(setFeed(json));
+            });
     };
 }
 
-//좋아요 
 function likePhoto(photoId) {
-  return (dispatch, getState) => {
-    dispatch(doLikePhoto(getState))
-    // const {user: { token }} = getState();
-    // fetch(`/${photoId}/likes/`, {
-    //   headers: { Authorization: `JWT ${token}` }
-    // })
-    //   .then(response => {
-    //     if (response.status === 401) {
-    //       dispatch(userActions.logout());
-    //     }
-    //     return response.json();
-    //   }) // json은 받아온 이미지 배열을 의미한다 0:
-    //   .then(json => dispatch(setFeed(json)))
-    //   .catch(err => console.log(err));
-  };
+    return (dispatch, getState) => {
+        dispatch(doLikePhoto(photoId));
+        const { user: { token } } = getState();
+        fetch(`/images/${photoId}/likes/`, {
+            method: "POST",
+            headers: {
+                Authorization: `JWT ${token}`
+            }
+        }).then(response => {
+            if (response.status === 401) {
+                dispatch(userActions.logout());
+            } else if (!response.ok) {
+                dispatch(doUnlikePhoto(photoId));
+            }
+        });
+    };
 }
 
-//좋아요 
 function unlikePhoto(photoId) {
     return (dispatch, getState) => {
-        dispatch(doLikePhoto(getState))
-        // const {user: { token }} = getState();
-        // fetch(`/${photoId}/likes/`, {
-        //   headers: { Authorization: `JWT ${token}` }
-        // })
-        //   .then(response => {
-        //     if (response.status === 401) {
-        //       dispatch(userActions.logout());
-        //     }
-        //     return response.json();
-        //   }) // json은 받아온 이미지 배열을 의미한다 0:
-        //   .then(json => dispatch(setFeed(json)))
-        //   .catch(err => console.log(err));
+        dispatch(doUnlikePhoto(photoId));
+        const { user: { token } } = getState();
+        fetch(`/images/${photoId}/unlikes/`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `JWT ${token}`
+            }
+        }).then(response => {
+            if (response.status === 401) {
+                dispatch(userActions.logout());
+            } else if (!response.ok) {
+                dispatch(doLikePhoto(photoId));
+            }
+        });
     };
 }
 
-//댓글 쓰기 
 function commentPhoto(photoId, message) {
     return (dispatch, getState) => {
         const { user: { token } } = getState();
@@ -123,45 +126,59 @@ function commentPhoto(photoId, message) {
             });
     };
 }
+// Initial State
 
+const initialState = {};
 
+// Reducer
 
-// initial
-const initialState = {
-}
-
-
-
-// reducer
-function reducer(state=initialState, action){
-    switch(action.type){
-    case SET_FEED:
-        return applySetFeed(state, action);
-    case LIKE_PHOTO:
-        return applyLikePhoto(state, action);
-    case ADD_COMMENT:
-        return applyAddComment(state, action);
-    default:
-        return state;
+function reducer(state = initialState, action) {
+    switch (action.type) {
+        case SET_FEED:
+            return applySetFeed(state, action);
+        case LIKE_PHOTO:
+            return applyLikePhoto(state, action);
+        case UNLIKE_PHOTO:
+            return applyUnlikePhoto(state, action);
+        case ADD_COMMENT:
+            return applyAddComment(state, action);
+        default:
+            return state;
     }
 }
 
-// reducer function
+// Reducer Functions
 
-function applySetFeed(state, action){
+function applySetFeed(state, action) {
     const { feed } = action;
     return {
         ...state,
         feed
-    }
+    };
 }
 
 function applyLikePhoto(state, action) {
-    const { feed } = action;
-    return {
-        ...state,
-        feed
-    }
+    const { photoId } = action;
+    const { feed } = state;
+    const updatedFeed = feed.map(photo => {
+        if (photo.id === photoId) {
+            return { ...photo, is_liked: true, like_count: photo.like_count + 1 };
+        }
+        return photo;
+    });
+    return { ...state, feed: updatedFeed };
+}
+
+function applyUnlikePhoto(state, action) {
+    const { photoId } = action;
+    const { feed } = state;
+    const updatedFeed = feed.map(photo => {
+        if (photo.id === photoId) {
+            return { ...photo, is_liked: false, like_count: photo.like_count - 1 };
+        }
+        return photo;
+    });
+    return { ...state, feed: updatedFeed };
 }
 
 function applyAddComment(state, action) {
@@ -178,17 +195,17 @@ function applyAddComment(state, action) {
     });
     return { ...state, feed: updatedFeed };
 }
+// Exports
 
-// exports
-// action creators에는 함수이름을 써주는거임
 const actionCreators = {
-  getFeed,
-  commentPhoto,
-  likePhoto
+    getFeed,
+    likePhoto,
+    unlikePhoto,
+    commentPhoto
 };
 
 export { actionCreators };
 
-// default reducer export
+// Export reducer by default
 
 export default reducer;

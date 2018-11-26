@@ -9,15 +9,12 @@ const cx = classNames.bind(styles);
 
 const PhotoActions = (props, context) => (
   <div className={cx("actions")}>
-  {/* 좋아요 아이콘 */}
+    {/* 좋아요 아이콘 */}
     <div className={cx("icons")}>
       <span className={cx("icon")} onClick={props.handleHeartClick}>
-        {props.isLiked ? 
-        (
+        {props.isLiked ? (
           <Ionicon icon="ios-heart" fontSize="28px" color="#EB4B59" />
-        )
-        :
-        (
+        ) : (
           <Ionicon icon="ios-heart-outline" fontSize="28px" color="black" />
         )}
       </span>
@@ -26,8 +23,7 @@ const PhotoActions = (props, context) => (
       </span>
     </div>
     <span className={cx("likes")} onClick={props.openLikes}>
-      {props.number}{" "}
-      {/* 단수 복수 처리 */}
+      {props.number} {/* 단수 복수 처리 */}
       {props.number === 1 ? context.t("like") : context.t("likes")}
     </span>
   </div>

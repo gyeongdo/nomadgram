@@ -1,19 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.scss";
-import classNames from "classnames/bind";
-
 import PhotoActions from 'components/PhotoActions';
 import PhotoComments from "../PhotoComments";
 import TimeStamp from "components/TimeStamp";
 import CommentBox from "components/CommentBox";
+import UserList from "components/UserList";
 
+
+import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 const FeedPhoto = (props, context) => {
-  return <div className={cx("feedPhoto")}>
+  return (
+    <div className={cx("feedPhoto")}>
       <header className={cx("header")}>
-        <img src={props.creater.profile_image || require("images/noPhoto.jpg")} alt={props.creater.username} className={cx("image")} />
+        <img
+          src={props.creater.profile_image || require("images/noPhoto.jpg")}
+          alt={props.creater.username}
+          className={cx("image")}
+        />
         <div className={cx("headerColumn")}>
           <span className={cx("creater")}>{props.creater.username}</span>
           <span className={cx("location")}>{props.location}</span>
@@ -21,13 +27,27 @@ const FeedPhoto = (props, context) => {
       </header>
       <img src={props.file} alt={props.caption} />
       <div className={cx("meta")}>
-        <PhotoActions number={props.like_count} isLiked={props.is_liked} photoId={props.id} openLikes={props.openLikes} />
-        <PhotoComments caption={props.caption} creater={props.creater.username} comments={props.comments} />
+        <PhotoActions
+          number={props.like_count}
+          isLiked={props.is_liked}
+          photoId={props.id}
+          openLikes={props.openLikes}
+        />
+        <PhotoComments
+          caption={props.caption}
+          creater={props.creater.username}
+          comments={props.comments}
+        />
         <TimeStamp time={props.natural_time} />
         <CommentBox photoId={props.id} />
       </div>
-    </div>;
+      {props.seeingLikes && (
+        <UserList title={context.t("Likes")} closeLikes={props.closeLikes} />
+      )}
+    </div>
+  );
 };
+
 
 FeedPhoto.contextTypes = {
   t: PropTypes.func.isRequired

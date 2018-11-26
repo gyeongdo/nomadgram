@@ -6,7 +6,6 @@ import store, { history } from 'redux/configureStore';
 import App from 'components/App';
 import I18n from 'redux-i18n';
 import { translations } from 'translations';
-import 'ReactotronConfig';
 
 ReactDOM.render(
   <Provider store={store}>

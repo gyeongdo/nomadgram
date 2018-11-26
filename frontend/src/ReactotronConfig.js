@@ -1,9 +1,9 @@
-import Reactotron from 'reactotron-react-js';
-import { reactotron, reactotronRedux } from 'reactotron-redux';
+// import Reactotron from 'reactotron-react-js';
+// import { reactotron, reactotronRedux } from 'reactotron-redux';
 
 
-Reactotron.configure({ name:"Nomadgram"})
-    .use(reactotronRedux())    
-    .connect();
+// Reactotron.configure({ name:"Nomadgram"})
+//     .use(reactotronRedux())    
+//     .connect();
 
-export default Reactotron;
+// export default Reactotron;

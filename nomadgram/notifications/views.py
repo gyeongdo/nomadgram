@@ -1,6 +1,6 @@
-# import requests
-# import json
-# import time
+import requests
+import json
+import time
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -21,45 +21,45 @@ class Notifications(APIView):
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
-# def create_notification(creater, to, notification_type, image=None, comment=None):
+def create_notification(creater, to, notification_type, image=None, comment=None):
 
-#     notification = models.Notification.objects.create(
-#         creater=creater,
-#         to=to,
-#         notification_type=notification_type,
-#         image=image,
-#         comment=comment
-#     )
+    notification = models.Notification.objects.create(
+        creater=creater,
+        to=to,
+        notification_type=notification_type,
+        image=image,
+        comment=comment
+    )
 
-#     time.sleep(10)
+    time.sleep(10)
 
-#     notification.save()
+    notification.save()
 
-#     action = ''
+    action = ''
 
-#     if notification_type == 'like':
+    if notification_type == 'like':
 
-#         action = 'liked your photo'
+        action = 'liked your photo'
     
-#     elif notification_type == 'comment':
+    elif notification_type == 'comment':
 
-#         action = 'commented on your photo'
+        action = 'commented on your photo'
     
-#     elif notification_type == 'follow':
+    elif notification_type == 'follow':
 
-#         action = 'followed you'
+        action = 'followed you'
         
 
-#     url = "https://exp.host/--/api/v2/push/send"
-#     data = {
-#         "to": creater.push_token,
-#         "sound": "default",
-#         "body": f'Somebody {action}',
-#         "badge": 1
-#     }
-#     headers = {'Content-type': 'application/json',
-#                'Accept': 'application/json', 'Accept-Encoding': 'gzip, deflate'}
+    url = "https://exp.host/--/api/v2/push/send"
+    data = {
+        "to": creater.push_token,
+        "sound": "default",
+        "body": f'Somebody {action}',
+        "badge": 1
+    }
+    headers = {'Content-type': 'application/json',
+               'Accept': 'application/json', 'Accept-Encoding': 'gzip, deflate'}
 
-#     request = requests.post(url, data=json.dumps(data), headers=headers)
+    request = requests.post(url, data=json.dumps(data), headers=headers)
 
-#     print(request.json())
+    print(request.json())
