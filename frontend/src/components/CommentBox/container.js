@@ -12,18 +12,18 @@ class Container extends Component {
   };
   render() {
     return (
-      <CommentBox
-        {...this.state}
-        handleInputChange={this._handleInputChange}
+      <CommentBox 
+        {...this.state} 
+        handleInputChange={this._handleInputChange} 
         handleKeyPress={this._handleKeyPress}
-      />
+    />
     );
-  }
+  } 
   _handleInputChange = event => {
     const { target: { value } } = event;
     this.setState({
-      comment: value
-    });
+       comment: value 
+      });
   };
   _handleKeyPress = event => {
     const { submitComment } = this.props;

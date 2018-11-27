@@ -34,7 +34,7 @@ function doUnlikePhoto(photoId) {
 
 function addComment(photoId, comment) {
     return {
-        type: ADD_COMMENT,
+        type: ADD_COMMENT, 
         photoId,
         comment
     };
@@ -50,15 +50,15 @@ function getFeed() {
                 Authorization: `JWT ${token}`
             }
         })
-            .then(response => {
-                if (response.status === 401) {
-                    dispatch(userActions.logout());
-                }
-                return response.json();
-            })
-            .then(json => {
-                dispatch(setFeed(json));
-            });
+        .then(response => {
+            if (response.status === 401) {
+                dispatch(userActions.logout());
+            }
+            return response.json();
+        })
+        .then(json => {
+            dispatch(setFeed(json));
+        });
     };
 }
 
@@ -100,30 +100,33 @@ function unlikePhoto(photoId) {
     };
 }
 
+// index에서 dispatch로 함수를 호출해서 보내줬음 
+// 여기서 받아서 사용 
+// actioncreator에서 이쪽으로 보내줌 
+
 function commentPhoto(photoId, message) {
     return (dispatch, getState) => {
         const { user: { token } } = getState();
+        console.log(JSON.stringify(getState));
         fetch(`/images/${photoId}/comments/`, {
-            method: "POST",
-            headers: {
-                Authorization: `JWT ${token}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                message
-            })
-        })
-            .then(response => {
-                if (response.status === 401) {
-                    dispatch(userActions.logout());
-                }
-                return response.json();
-            })
-            .then(json => {
-                if (json.message) {
-                    dispatch(addComment(photoId, json));
-                }
-            });
+          method: "POST",
+          headers: {
+            Authorization: `JWT ${token}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            message: message
+          })
+        }).then(response => {
+            if (response === 401) {
+              dispatch(userActions.logout);
+            }
+            return response.json();
+        }).then(json => {
+            if (json.message){
+                dispatch(addComment(photoId, json));
+            }
+        });
     };
 }
 // Initial State
@@ -134,16 +137,16 @@ const initialState = {};
 
 function reducer(state = initialState, action) {
     switch (action.type) {
-        case SET_FEED:
-            return applySetFeed(state, action);
-        case LIKE_PHOTO:
-            return applyLikePhoto(state, action);
-        case UNLIKE_PHOTO:
-            return applyUnlikePhoto(state, action);
-        case ADD_COMMENT:
-            return applyAddComment(state, action);
-        default:
-            return state;
+      case SET_FEED:
+        return applySetFeed(state, action);
+      case LIKE_PHOTO:
+        return applyLikePhoto(state, action);
+      case UNLIKE_PHOTO:
+        return applyUnlikePhoto(state, action);
+      case ADD_COMMENT:
+        return applyAddComment(state, action);
+      default:
+        return state;
     }
 }
 
@@ -174,11 +177,18 @@ function applyUnlikePhoto(state, action) {
     const { feed } = state;
     const updatedFeed = feed.map(photo => {
         if (photo.id === photoId) {
-            return { ...photo, is_liked: false, like_count: photo.like_count - 1 };
+            return {
+                ...photo,
+                is_liked: false,
+                like_count: photo.like_count - 1
+            };
         }
         return photo;
     });
-    return { ...state, feed: updatedFeed };
+    return {
+        ...state,
+        feed: updatedFeed
+    };
 }
 
 function applyAddComment(state, action) {
@@ -198,10 +208,10 @@ function applyAddComment(state, action) {
 // Exports
 
 const actionCreators = {
-    getFeed,
-    likePhoto,
-    unlikePhoto,
-    commentPhoto
+  getFeed,
+  likePhoto,
+  unlikePhoto,
+  commentPhoto
 };
 
 export { actionCreators };

@@ -8,23 +8,23 @@ const cx = classNames.bind(styles);
 const PhotoComments = props => (
   <div className={cx("comments")}>
     <ul className={cx("list")}>
-        <Comment username={props.creater} comment={props.caption} />
-        {props.comments.map(comment => (
-            <Comment
-                username={comment.creater.username}
-                comment={comment.message}
-                key={comment.id}
-            />
-        ))}
+      <Comment username={props.creater} comment={props.caption} />
+      {props.comments.map(comment => (
+        <Comment
+          username={comment.creater.username}
+          comment={comment.message}
+          key={comment.id}
+        />
+      ))}
     </ul>
   </div>
 );
 
 const Comment = props => (
-    <li className={cx("comment")}>
-        <span className={cx("username")}>{props.username}</span>{" "}
-        <span className={cx("message")}>{props.comment}</span>
-    </li>
+  <li className={cx("comment")}>
+    <span className={cx("username")}>{props.username}</span>{" "}
+    <span className={cx("message")}>{props.comment}</span>
+  </li>
 );
 
 PhotoComments.propTypes = {
@@ -32,11 +32,11 @@ PhotoComments.propTypes = {
   creater: PropTypes.string.isRequired,
   comments: PropTypes.arrayOf(
     PropTypes.shape({
-        message       : PropTypes.string.isRequired,
-        creater       : PropTypes.shape({
-            profile_image : PropTypes.string,
-            username      : PropTypes.string.isRequired
-        }).isRequired
+      message: PropTypes.string.isRequired,
+      creater: PropTypes.shape({
+        profile_image: PropTypes.string,
+        username: PropTypes.string.isRequired
+      }).isRequired
     })
   ).isRequired
 };

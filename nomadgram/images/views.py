@@ -68,7 +68,7 @@ class LikeImage(APIView):
         #필터로 걸러서 가져와서
         users = user_models.User.objects.filter(id__in=like_creaters_ids)
 
-        # 시리얼라이저로 보여줄 값 정의해주기 
+        # 시리얼라이저로 보여줄 값 정의해주기
         serializer = user_serializers.ListUserSerializer(
             users, many=True, context={'request': request})
 
@@ -140,15 +140,9 @@ class CommentOnImage(APIView):
         serializer = serializers.CommentSerializer(data=request.data)
 
         if serializer.is_valid():
-
             serializer.save(creater=user, image=found_image)
-
-            #notification_views.create_notification(user, found_image.creater, 'comment', found_image, serializer.data['message'])
-
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
-
         else:
-
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
