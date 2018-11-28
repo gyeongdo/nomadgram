@@ -352,6 +352,4 @@ const actionCreators = {
 
 export { actionCreators };
 
-// export reducer by default
-
 export default reducer;
